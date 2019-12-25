@@ -85,7 +85,7 @@ function useAppFormBuilder({
     switch (input.type) {
       case 'outlined-input':
         return (
-          <TextInput
+          <OutlinedTextField
             label={input.label}
             error={errors[input.name] && (errors[input.name] || {}).message}
             {...input.textInputProps}
@@ -93,7 +93,7 @@ function useAppFormBuilder({
         );
       case 'basic-input':
         return (
-          <TextInput
+          <TextField
             label={input.label}
             error={errors[input.name] && (errors[input.name] || {}).message}
             {...input.textInputProps}
@@ -101,7 +101,7 @@ function useAppFormBuilder({
         );
       case 'filled-input':
         return (
-          <TextInput
+          <FilledTextField
             label={input.label}
             error={errors[input.name] && (errors[input.name] || {}).message}
             {...input.textInputProps}
@@ -109,7 +109,7 @@ function useAppFormBuilder({
         );
       default:
         return (
-          <TextInput
+          <OutlinedTextField
             label={input.label}
             error={errors[input.name] && (errors[input.name] || {}).message}
             {...input.textInputProps}
