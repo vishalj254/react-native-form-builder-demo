@@ -1,6 +1,5 @@
-import React, {useEffect, Fragment, useState} from 'react';
+import React, {useEffect, Fragment} from 'react';
 import {View} from 'react-native';
-import {RHFInput} from 'react-hook-form-input';
 import {
   TextField,
   FilledTextField,
@@ -9,6 +8,7 @@ import {
 } from 'react-native-material-textfield';
 import {ValidationOptions} from 'react-hook-form-input/dist/types';
 import {FormContextValues} from 'react-hook-form/dist/contextTypes';
+import {Controller} from 'react-hook-form';
 import {TextInput} from 'react-native-paper';
 
 type FormConfigType = {
@@ -40,21 +40,17 @@ function AppFormBuilder(props: AppFormBuilderPropType) {
     setValue,
     onChange,
     inputSelector,
-    formData,
+    control,
   } = useAppFormBuilder(props);
 
-  const renderAppBuilderItem = (input: FormConfigType, index: number) => (
+  const renderAppBuilderItem = (input: FormConfigType | any, index: number) => (
     <View key={index} style={{marginBottom: 15}}>
-      <RHFInput
-        register={register}
-        setValue={setValue}
-        // as={}
+      <Controller
         as={inputSelector(input)}
-        onChangeEvent={onChange}
         name={input.name}
         rules={input.rules}
         mode={formGlobalConfig.mode}
-        // defaultValue={formData[input.name]}
+        control={control}
       />
     </View>
   );
@@ -67,11 +63,17 @@ function useAppFormBuilder({
   formGlobalConfig,
   form,
 }: AppFormBuilderPropType) {
-  const {register, errors, setValue, getValues}: FormContextValues = form;
+  const {
+    register,
+    errors,
+    setValue,
+    getValues,
+    control,
+  }: FormContextValues | any = form;
   const formData = getValues();
 
   useEffect(() => {
-    console.log('Render called...', getValues());
+    console.log('Render called...', errors);
   });
 
   const onChange = (args: any) => ({
@@ -79,37 +81,27 @@ function useAppFormBuilder({
   });
 
   const inputSelector = (input: FormConfigType) => {
+    console.log(input.name);
     switch (input.type) {
       case 'outlined-input':
         return (
-          // <OutlinedTextField
-          //   label={input.label}
-          //   error={errors[input.name] && (errors[input.name] || {}).message}
-          //   {...input.textInputProps}
-          // />
           <TextInput
             label={input.label}
-            underlineColor={'red'}
-            mode={'outlined'}
-            error={errors[input.name] ? true : false}
+            error={errors[input.name] && (errors[input.name] || {}).message}
+            {...input.textInputProps}
           />
         );
       case 'basic-input':
         return (
-          // <TextField
-          //   label={input.label}
-          //   error={errors[input.name] && (errors[input.name] || {}).message}
-          //   {...input.textInputProps}
-          // />
           <TextInput
             label={input.label}
-            mode={'flat'}
-            error={errors[input.name] ? true : false}
+            error={errors[input.name] && (errors[input.name] || {}).message}
+            {...input.textInputProps}
           />
         );
       case 'filled-input':
         return (
-          <FilledTextField
+          <TextInput
             label={input.label}
             error={errors[input.name] && (errors[input.name] || {}).message}
             {...input.textInputProps}
@@ -117,7 +109,7 @@ function useAppFormBuilder({
         );
       default:
         return (
-          <OutlinedTextField
+          <TextInput
             label={input.label}
             error={errors[input.name] && (errors[input.name] || {}).message}
             {...input.textInputProps}
@@ -134,6 +126,7 @@ function useAppFormBuilder({
     inputSelector,
     setValue,
     formData,
+    control,
   };
 }
 

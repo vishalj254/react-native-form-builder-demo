@@ -12,7 +12,7 @@
   "dependencies": {
     "@types/react-native-material-dropdown": "^0.11.3",
     "react": "16.9.0",
-    "react-hook-form": "^3.29.4",
+    "react-hook-form": "^4.0.0",
     "react-hook-form-input": "^1.1.10",
     "react-native": "0.61.5",
     "react-native-material-dropdown": "^0.11.1",
