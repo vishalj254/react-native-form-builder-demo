@@ -5,6 +5,8 @@ import useHomeScreen from './useHomeScreen';
 import {Button, Appbar, DefaultTheme, Title, Divider} from 'react-native-paper';
 import {Container, Body, Spacer} from './../../UIKIT';
 import DemoScreen from './../demo/DemoScreen';
+//@ts-ignore
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 function HomeScreen() {
   const {form, formConfigArray, onSubmit, onReset} = useHomeScreen();
@@ -35,6 +37,7 @@ function HomeScreen() {
         <Title>Without Form Builder</Title>
         <DemoScreen />
       </Body>
+      <KeyboardSpacer />
     </Container>
   );
 }
