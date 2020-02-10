@@ -2,8 +2,9 @@ import React from 'react';
 import {View} from 'react-native';
 import {AppFormBuilder} from '../../Components';
 import useHomeScreen from './useHomeScreen';
-import {Button, Appbar, DefaultTheme} from 'react-native-paper';
-import {Container, Body} from './../../UIKIT';
+import {Button, Appbar, DefaultTheme, Title, Divider} from 'react-native-paper';
+import {Container, Body, Spacer} from './../../UIKIT';
+import DemoScreen from './../demo/DemoScreen';
 
 function HomeScreen() {
   const {form, formConfigArray, onSubmit, onReset} = useHomeScreen();
@@ -13,9 +14,10 @@ function HomeScreen() {
       statusBarStyle={'light-content'}
       statusBarBackgroundColor={DefaultTheme.colors.primary}>
       <Appbar.Header>
-        <Appbar.Content title="Form Builder Demo" />
+        <Appbar.Content title="Demo" />
       </Appbar.Header>
       <Body style={{padding: 20}}>
+        <Title>Form Builder</Title>
         <AppFormBuilder formConfigArray={formConfigArray} form={form} />
         <Button
           contentStyle={{height: 50}}
@@ -27,6 +29,11 @@ function HomeScreen() {
         <Button contentStyle={{height: 50}} mode={'outlined'} onPress={onReset}>
           Reset
         </Button>
+        <Spacer size={20} />
+        <Divider />
+        <Spacer size={20} />
+        <Title>Without Form Builder</Title>
+        <DemoScreen />
       </Body>
     </Container>
   );
