@@ -19,7 +19,8 @@
     "react-native-material-textfield": "^0.16.1",
     "react-native-paper": "^3.6.0",
     "react-native-pixel-perfect": "^1.0.2",
-    "react-native-vector-icons": "^6.6.0"
+    "react-native-vector-icons": "^6.6.0",
+    "rnfui": "0.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

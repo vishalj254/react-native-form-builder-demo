@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {TextInput, HelperText} from 'react-native-paper';
+import {TextInput, HelperText, DefaultTheme} from 'react-native-paper';
 
 function AppFormBuilderInput(props: any) {
   const {input, form} = props;
@@ -9,7 +9,7 @@ function AppFormBuilderInput(props: any) {
         <Fragment>
           <TextInput {...props} />
           {form.errors[input.name] && (
-            <HelperText style={{color: 'red'}}>
+            <HelperText style={{color: DefaultTheme.colors.error}}>
               {(form.errors[input.name] || {}).message}
             </HelperText>
           )}
@@ -20,7 +20,7 @@ function AppFormBuilderInput(props: any) {
         <Fragment>
           <TextInput {...props} />
           {form.errors[input.name] && (
-            <HelperText style={{color: 'red'}}>
+            <HelperText style={{color: DefaultTheme.colors.error}}>
               {(form.errors[input.name] || {}).message}
             </HelperText>
           )}
@@ -31,7 +31,7 @@ function AppFormBuilderInput(props: any) {
         <Fragment>
           <TextInput {...props} />
           {form.errors[input.name] && (
-            <HelperText style={{color: 'red'}}>
+            <HelperText style={{color: DefaultTheme.colors.error}}>
               {(form.errors[input.name] || {}).message}
             </HelperText>
           )}

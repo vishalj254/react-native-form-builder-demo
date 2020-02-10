@@ -1,15 +1,21 @@
 import React from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {View} from 'react-native';
 import {AppFormBuilder} from '../../Components';
 import useHomeScreen from './useHomeScreen';
-import {Button} from 'react-native-paper';
+import {Button, Appbar, DefaultTheme} from 'react-native-paper';
+import {Container, Body} from './../../UIKIT';
 
 function HomeScreen() {
   const {form, formConfigArray, onSubmit, onReset} = useHomeScreen();
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={{flex: 1, padding: 15}}>
+    <Container
+      statusBarStyle={'light-content'}
+      statusBarBackgroundColor={DefaultTheme.colors.primary}>
+      <Appbar.Header>
+        <Appbar.Content title="Form Builder Demo" />
+      </Appbar.Header>
+      <Body style={{padding: 20}}>
         <AppFormBuilder formConfigArray={formConfigArray} form={form} />
         <Button
           contentStyle={{height: 50}}
@@ -21,8 +27,8 @@ function HomeScreen() {
         <Button contentStyle={{height: 50}} mode={'outlined'} onPress={onReset}>
           Reset
         </Button>
-      </View>
-    </SafeAreaView>
+      </Body>
+    </Container>
   );
 }
 
