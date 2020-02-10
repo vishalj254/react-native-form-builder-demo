@@ -1,26 +1,22 @@
 import React, {useEffect, Fragment} from 'react';
 import {View} from 'react-native';
-import {
-  TextField,
-  FilledTextField,
-  OutlinedTextField,
-  TextFieldProps,
-} from 'react-native-material-textfield';
 import {ValidationOptions} from 'react-hook-form-input/dist/types';
 import {FormContextValues} from 'react-hook-form/dist/contextTypes';
 import {Controller} from 'react-hook-form';
-import {TextInput} from 'react-native-paper';
+import {HelperText, TextInput} from 'react-native-paper';
+import {TextInputProps} from 'react-native-paper/lib/typescript/src/components/TextInput/TextInput';
+import AppFormBuilderInput from './AppFormBuilderInput';
 
 type FormConfigType = {
   name: string;
-  type: 'basic-input' | 'outlined-input' | 'filled-input';
-  label?: string;
-  rules?: ValidationOptions;
-  textInputProps?: TextFieldProps;
+  type: 'flat' | 'outlined';
   handleSubmit: any;
+  label?: string;
+  rules?: ValidationOptions | any;
+  textInputProps?: TextInputProps | any;
 };
 
-export type FormConfigArrayType = Array<FormConfigType | any>;
+export type FormConfigArrayType = Array<FormConfigType>;
 
 export type FormGlobalConfigType = {
   mode: 'onChange' | 'onBlur' | 'onSubmit';
@@ -28,29 +24,22 @@ export type FormGlobalConfigType = {
 
 type AppFormBuilderPropType = {
   formConfigArray: FormConfigArrayType;
-  formGlobalConfig: FormGlobalConfigType;
-  form: FormContextValues;
+  form: FormContextValues | any;
 };
 
 function AppFormBuilder(props: AppFormBuilderPropType) {
-  const {
-    formConfigArray,
-    formGlobalConfig,
-    register,
-    setValue,
-    onChange,
-    inputSelector,
-    control,
-  } = useAppFormBuilder(props);
+  const {formConfigArray, inputSelector, onChange, form} = useAppFormBuilder(
+    props,
+  );
 
-  const renderAppBuilderItem = (input: FormConfigType | any, index: number) => (
+  const renderAppBuilderItem = (input: any, index: number) => (
     <View key={index} style={{marginBottom: 15}}>
       <Controller
         as={inputSelector(input)}
         name={input.name}
         rules={input.rules}
-        mode={formGlobalConfig.mode}
-        control={control}
+        control={form.control}
+        onChange={onChange}
       />
     </View>
   );
@@ -58,22 +47,9 @@ function AppFormBuilder(props: AppFormBuilderPropType) {
   return <Fragment>{formConfigArray.map(renderAppBuilderItem)}</Fragment>;
 }
 
-function useAppFormBuilder({
-  formConfigArray,
-  formGlobalConfig,
-  form,
-}: AppFormBuilderPropType) {
-  const {
-    register,
-    errors,
-    setValue,
-    getValues,
-    control,
-  }: FormContextValues | any = form;
-  const formData = getValues();
-
+function useAppFormBuilder({formConfigArray, form}: AppFormBuilderPropType) {
   useEffect(() => {
-    console.log('Render called...', errors);
+    console.log('Render called...', form.errors);
   });
 
   const onChange = (args: any) => ({
@@ -81,52 +57,22 @@ function useAppFormBuilder({
   });
 
   const inputSelector = (input: FormConfigType) => {
-    console.log(input.name);
-    switch (input.type) {
-      case 'outlined-input':
-        return (
-          <OutlinedTextField
-            label={input.label}
-            error={errors[input.name] && (errors[input.name] || {}).message}
-            {...input.textInputProps}
-          />
-        );
-      case 'basic-input':
-        return (
-          <TextField
-            label={input.label}
-            error={errors[input.name] && (errors[input.name] || {}).message}
-            {...input.textInputProps}
-          />
-        );
-      case 'filled-input':
-        return (
-          <FilledTextField
-            label={input.label}
-            error={errors[input.name] && (errors[input.name] || {}).message}
-            {...input.textInputProps}
-          />
-        );
-      default:
-        return (
-          <OutlinedTextField
-            label={input.label}
-            error={errors[input.name] && (errors[input.name] || {}).message}
-            {...input.textInputProps}
-          />
-        );
-    }
+    const propsInput = {
+      mode: input.type,
+      label: input.label,
+      error: form.errors[input.name] && (form.errors[input.name] || {}).message,
+      form: form,
+      input: input,
+      ...input.textInputProps,
+    };
+    return <AppFormBuilderInput {...propsInput} />;
   };
 
   return {
     formConfigArray,
-    formGlobalConfig,
+    form,
     onChange,
-    register,
     inputSelector,
-    setValue,
-    formData,
-    control,
   };
 }
 

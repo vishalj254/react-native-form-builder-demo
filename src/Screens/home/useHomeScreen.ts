@@ -1,31 +1,39 @@
 import {useForm} from 'react-hook-form';
-import {
-  FormConfigArrayType,
-  FormGlobalConfigType,
-} from '../../Components/Shared/AppFormBuilder';
-import {useState} from 'react';
+import {FormConfigArrayType} from '../../Components/Shared/AppFormBuilder';
 
 function useHomeScreen() {
-  const [resetFormKey, updateResetFormKey] = useState(1);
   const form = useForm({
     defaultValues: {
+      name: 'Test',
       email: 'bluebill1049@hotmail.com',
+      password: '12345678',
     },
+    mode: 'onChange',
   });
+  const onSubmit = form.handleSubmit((data: any) => {
+    console.log(data);
+  });
+
+  const onReset = () => {
+    form.reset({
+      name: '',
+      email: '',
+      password: '',
+    });
+  };
 
   return {
     form,
     formConfigArray,
-    formGlobalConfig,
-    resetFormKey,
-    updateResetFormKey,
+    onSubmit,
+    onReset,
   };
 }
 
-const formConfigArray: FormConfigArrayType = [
+const formConfigArray: FormConfigArrayType | any = [
   {
     name: 'name',
-    type: 'basic-input',
+    type: 'outlined',
     label: 'Name',
     rules: {
       required: {
@@ -35,14 +43,11 @@ const formConfigArray: FormConfigArrayType = [
     },
     textInputProps: {
       keyboardType: 'default',
-      fontSize: 18,
-      labelFontSize: 14,
-      tintColor: 'blue',
     },
   },
   {
     name: 'email',
-    type: 'outlined-input',
+    type: 'outlined',
     label: 'Email Address',
     rules: {
       required: {
@@ -57,14 +62,11 @@ const formConfigArray: FormConfigArrayType = [
     textInputProps: {
       keyboardType: 'email-address',
       autoCapitalize: 'none',
-      fontSize: 18,
-      labelFontSize: 14,
-      tintColor: 'orange',
     },
   },
   {
     name: 'password',
-    type: 'filled-input',
+    type: 'outlined',
     label: 'Password',
     rules: {
       required: {
@@ -83,14 +85,8 @@ const formConfigArray: FormConfigArrayType = [
     textInputProps: {
       keyboardType: 'default',
       secureTextEntry: true,
-      fontSize: 18,
-      labelFontSize: 14,
-      inputContainerStyle: {backgroundColor: '#f6f6f6'},
     },
   },
 ];
-const formGlobalConfig: FormGlobalConfigType = {
-  mode: 'onChange',
-};
 
 export default useHomeScreen;

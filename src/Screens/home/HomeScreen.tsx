@@ -1,37 +1,26 @@
 import React from 'react';
-import {SafeAreaView, View, Button, Alert} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import {AppFormBuilder} from '../../Components';
 import useHomeScreen from './useHomeScreen';
+import {Button} from 'react-native-paper';
 
 function HomeScreen() {
-  const {
-    form,
-    formConfigArray,
-    formGlobalConfig,
-    resetFormKey,
-    updateResetFormKey,
-  } = useHomeScreen();
+  const {form, formConfigArray, onSubmit, onReset} = useHomeScreen();
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 1, padding: 15}}>
-        <AppFormBuilder
-          formConfigArray={formConfigArray}
-          formGlobalConfig={formGlobalConfig}
-          form={form}
-          key={resetFormKey}
-        />
+        <AppFormBuilder formConfigArray={formConfigArray} form={form} />
         <Button
-          title={'Submit'}
-          onPress={form.handleSubmit((data: any) => {
-            Alert.alert(JSON.stringify(data));
-          })}></Button>
-        <Button
-          title={'Reset'}
-          onPress={() => {
-            form.reset({
-              email: 'test',
-            });
-          }}></Button>
+          contentStyle={{height: 50}}
+          mode={'contained'}
+          onPress={onSubmit}>
+          Submit
+        </Button>
+        <View style={{height: 20}}></View>
+        <Button contentStyle={{height: 50}} mode={'outlined'} onPress={onReset}>
+          Reset
+        </Button>
       </View>
     </SafeAreaView>
   );
